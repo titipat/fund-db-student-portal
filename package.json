@@ -12,7 +12,8 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "googleapis": "^21.3.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "pug": "^2.0.0-rc.4"
   },
   "devDependencies": {
     "eslint": "^4.6.1"

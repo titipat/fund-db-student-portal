@@ -2,6 +2,7 @@ const google = require('googleapis')
 const sheets = google.sheets('v4')
 const _ = require('lodash')
 const key = require('./key.json')
+const pug = require('pug')
 const dotenv = require('dotenv').config()
 const SPREAD_SHEET_ID = process.env.SPREAD_SHEET_ID
 
@@ -48,7 +49,7 @@ const getHeader = (callback) => {
         // console.log(sheet)
         callback(err, {
             labels: sheet.values[0],
-            maximum: sheet.values[1]
+            fullMarks: sheet.values[1]
         })
     })
 }
@@ -68,9 +69,8 @@ const getScore = (studentId, callback) => {
                     value: score[index]
                 }
 
-                // console.log(_.toFinite(+header.maximum[index]))
-                if (header.maximum[index].length > 0) {
-                    response[header.labels[index]].maximum = _.toNumber(header.maximum[index])
+                if (header.fullMarks[index].length > 0) {
+                    response[header.labels[index]].fullMark = _.toNumber(header.fullMarks[index])
                     response[header.labels[index]].type = 'number'
                 } else {
                     response[header.labels[index]].type = 'string'
@@ -85,5 +85,29 @@ const getScore = (studentId, callback) => {
 
 const studentId = '580610631'
 getScore(studentId, (err, score) => {
+    const student = {
+        id: score.id.value,
+        firstname: score.firstname.value.toString('utf8'),
+        lastname: score.lastname.value
+    }
     console.log(score)
+    const fs = require('fs')
+    const html = pug.renderFile('template.pug', {
+        student,
+        score
+    })
+    // console.log(html)
+    fs.writeFileSync('./output.html', html)
 })
+
+// const students = [
+//     {
+//         id: '540610614',
+//         firstname: 'Titipat',
+//         lastname: 'Sukhvibul'
+//     }
+// ]
+
+// const student = students.pop()
+
+

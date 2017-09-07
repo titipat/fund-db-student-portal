@@ -1,0 +1,26 @@
+html(lang="th")
+    head
+        meta(charset="UTF-8")
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous")
+    body
+        .container
+            h1 MyScoreboard
+            h3 #{student.id} #{student.firstname} #{student.lastname}
+
+            table.table.table-bordered
+                tr 
+                    th label
+                    th value
+                    th full marks
+                tr
+                    td lab 1
+                    td #{score['lab 1'].value}
+                    td #{score['lab 1'].fullMark}
+                tr
+                    td lab 2
+                    td #{score['lab 2'].value}
+                    td #{score['lab 2'].fullMark}
+                tr
+                    td lab 3
+                    td #{score['lab 3'].value}
+                    td #{score['lab 3'].fullMark}
