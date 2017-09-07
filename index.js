@@ -1,7 +1,9 @@
-const spreadsheetId = '1aQPN2T3qNDaLyfmgpFOzvPsK-lsAULqORlllDPj-XZU'
 const google = require('googleapis')
 const sheets = google.sheets('v4')
+const _ = require('lodash')
 const key = require('./key.json')
+const spreadsheetId = '1aQPN2T3qNDaLyfmgpFOzvPsK-lsAULqORlllDPj-XZU'
+
 const jwtClient = new google.auth.JWT(
     key.client_email,
     null,
@@ -9,10 +11,6 @@ const jwtClient = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets.readonly'], // an array of auth scopes
     null
 )
-
-const _ = require('lodash')
-
-
 
 const getSheet = (callback) => {
     jwtClient.authorize((err, tokens) => {
@@ -62,8 +60,15 @@ const getScore = (studentId, callback) => {
             }
             for (const index in header.labels) {
                 response[header.labels[index]] = {
-                    maximum: header.maximum[index],
                     value: score[index]
+                }
+
+                // console.log(_.toFinite(+header.maximum[index]))
+                if (header.maximum[index].length > 0) {
+                    response[header.labels[index]].maximum = _.toNumber(header.maximum[index])
+                    response[header.labels[index]].type = 'number'
+                } else {
+                    response[header.labels[index]].type = 'string'
                 }
             }
 
@@ -72,10 +77,6 @@ const getScore = (studentId, callback) => {
         
     })
 }
-
-
-
-
 
 const studentId = '580610631'
 getScore(studentId, (err, score) => {
