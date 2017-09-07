@@ -2,7 +2,12 @@ const google = require('googleapis')
 const sheets = google.sheets('v4')
 const _ = require('lodash')
 const key = require('./key.json')
-const spreadsheetId = '1aQPN2T3qNDaLyfmgpFOzvPsK-lsAULqORlllDPj-XZU'
+const dotenv = require('dotenv').config()
+const SPREAD_SHEET_ID = process.env.SPREAD_SHEET_ID
+
+if (_.isEmpty(SPREAD_SHEET_ID)) {
+    throw new Error('SPREAD_SHEET_ID is required')
+}
 
 const jwtClient = new google.auth.JWT(
     key.client_email,
@@ -19,7 +24,7 @@ const getSheet = (callback) => {
         }
     
         const req = {
-            spreadsheetId,
+            spreadsheetId: SPREAD_SHEET_ID,
             auth: jwtClient,
             range: ['summary']
         }
