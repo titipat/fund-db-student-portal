@@ -85,28 +85,36 @@ const getScore = (studentId, callback) => {
 };
 
 const studentId = "580610631";
-getScore(studentId, (err, score) => {
-  const student = {
-    id: score.id.value,
-    firstname: score.firstname.value.toString("utf8"),
-    lastname: score.lastname.value
-  };
-  console.log(score);
-  const fs = require("fs");
-  const html = pug.renderFile("template.pug", {
-    student,
-    score
-  });
-  // console.log(html)
-  fs.writeFileSync("./output.html", html);
-});
+// getScore(studentId, (err, score) => {
+//   const student = {
+//     id: score.id.value,
+//     firstname: score.firstname.value.toString("utf8"),
+//     lastname: score.lastname.value
+//   };
+//   console.log(score);
+//   const fs = require("fs");
+//   const html = pug.renderFile("template.pug", {
+//     student,
+//     score
+//   });
+//   // console.log(html)
+//   fs.writeFileSync("./output.html", html);
+// });
 
-// const students = [
-//     {
-//         id: '540610614',
-//         firstname: 'Titipat',
-//         lastname: 'Sukhvibul'
-//     }
-// ]
+const students = [
+  {
+    id: "580610631",
+    firstname: "Titipat",
+    lastname: "Sukhvibul",
+    email: 'titipatsukhvibul@gmail.com'
+  }
+];
+
+const moment = require('moment')
+let student = students.pop()
+const jwt = require('jsonwebtoken')
+student.iat = moment().add(1, 'days').unix()
+const token = jwt.sign(student, process.env.JWT_SECRET)
+// console.log(token)
 
 // const student = students.pop()
