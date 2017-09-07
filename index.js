@@ -118,3 +118,10 @@ const token = jwt.sign(student, process.env.JWT_SECRET)
 // console.log(token)
 
 // const student = students.pop()
+
+const express = require('express')
+let app = express()
+app.use((req, res) => {
+  res.send('m/a')
+})
+app.listen(process.env.PORT || 3000)
