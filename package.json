@@ -23,6 +23,6 @@
     "eslint-plugin-react": "^7.3.0"
   },
   "engines": {
-    "nodejs": "~6"
+    "node": "~6"
   }
 }
