@@ -2,7 +2,9 @@ const google = require("googleapis");
 const sheets = google.sheets("v4");
 const _ = require("lodash");
 const dotenv = require("dotenv").config();
-const KEY = JSON.parse(Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT, 'base64').toString())
+const KEY = JSON.parse(
+  Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT, "base64").toString()
+);
 const pug = require("pug");
 const SPREAD_SHEET_ID = process.env.SPREAD_SHEET_ID;
 
@@ -106,22 +108,50 @@ const students = [
     id: "580610631",
     firstname: "Titipat",
     lastname: "Sukhvibul",
-    email: 'titipatsukhvibul@gmail.com'
+    email: "titipatsukhvibul@gmail.com"
   }
 ];
 
-const moment = require('moment')
-let student = students.pop()
-const jwt = require('jsonwebtoken')
-student.iat = moment().add(1, 'days').unix()
-const token = jwt.sign(student, process.env.JWT_SECRET)
+const moment = require("moment");
+let student = students.pop();
+const jwt = require("jsonwebtoken");
+student.iat = moment()
+  .add(1, "days")
+  .unix();
+const token = jwt.sign(student, process.env.JWT_SECRET);
 // console.log(token)
 
 // const student = students.pop()
 
-const express = require('express')
-let app = express()
+const express = require("express");
+let app = express();
+
+app.get("/myscoreboard", (req, res) => {
+  const token = req.query.token;
+  jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    // res.json(payload)
+    getScore(payload.id, (err, score) => {
+      const student = {
+        id: score.id.value,
+        firstname: score.firstname.value.toString("utf8"),
+        lastname: score.lastname.value
+      };
+      // console.log(score);
+      const fs = require("fs");
+      const html = pug.renderFile("template.pug", {
+        student,
+        score
+      });
+      // console.log(html)
+      res.send(html)
+    });
+  });
+});
+
 app.use((req, res) => {
-  res.send('m/a')
-})
-app.listen(process.env.PORT || 3000)
+  res.send("m/a");
+});
+app.listen(process.env.PORT || 3000);
