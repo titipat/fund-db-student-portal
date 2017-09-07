@@ -1,0 +1,23 @@
+{
+  "name": "funddb_student_portal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "googleapis": "^21.3.0",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1"
+  },
+  "engines": {
+    "nodejs": "~6"
+  }
+}
