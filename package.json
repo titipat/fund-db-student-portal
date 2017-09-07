@@ -16,7 +16,9 @@
     "pug": "^2.0.0-rc.4"
   },
   "devDependencies": {
-    "eslint": "^4.6.1"
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.6.1",
+    "eslint-plugin-react": "^7.3.0"
   },
   "engines": {
     "nodejs": "~6"
