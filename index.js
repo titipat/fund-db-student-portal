@@ -1,9 +1,9 @@
 const google = require("googleapis");
 const sheets = google.sheets("v4");
 const _ = require("lodash");
-const key = require("./key.json");
-const pug = require("pug");
 const dotenv = require("dotenv").config();
+const KEY = JSON.parse(Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT, 'base64').toString())
+const pug = require("pug");
 const SPREAD_SHEET_ID = process.env.SPREAD_SHEET_ID;
 
 if (_.isEmpty(SPREAD_SHEET_ID)) {
@@ -11,9 +11,9 @@ if (_.isEmpty(SPREAD_SHEET_ID)) {
 }
 
 const jwtClient = new google.auth.JWT(
-  key.client_email,
+  KEY.client_email,
   null,
-  key.private_key,
+  KEY.private_key,
   ["https://www.googleapis.com/auth/spreadsheets.readonly"], // an array of auth scopes
   null
 );
