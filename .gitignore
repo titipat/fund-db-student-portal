@@ -3,3 +3,4 @@ key.json
 .env
 output.html
 package-lock.json
+npm-debug.log
