@@ -1,29 +1,40 @@
 const Student = require('../lib/student')
 jest.setTimeout(10000)
+
+describe('mapEmail', () => {
+  test('should return email', done => {
+    Student.mapEmail('580610XXX', (err, email) => {
+      expect(err).toBeNull()
+      expect(email).not.toBeNull()
+      done()
+    })
+  })
+})
 describe('find()', () => {
-  it('should return student record', done => {
-    Student.find('580610631', (err, student) => {
+  test('should return student record', done => {
+    Student.find('580610XXX', (err, student) => {
       expect(err).toBeNull()
       expect(student).toEqual({
-        id: '580610631',
-        firstname: 'นายชวศิษฐ์',
-        lastname: 'เต็งไตรรัตน์',
+        id: '580610XXX',
+        firstname: 'John',
+        lastname: 'Doe',
+        email: 'johndoe@example.com',
         scores: [
           {
             label: 'lab 1',
-            value: 46,
+            value: 49,
             fullMark: 50,
             type: 'number'
           },
           {
             label: 'lab 2',
-            value: 56.5,
+            value: 56,
             fullMark: 57,
             type: 'number'
           },
           {
             label: 'lab 3',
-            value: 55,
+            value: 54,
             fullMark: 55,
             type: 'number'
           }
