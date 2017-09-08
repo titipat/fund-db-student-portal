@@ -8,10 +8,10 @@ const Student = require('./lib/student')
 const studentId = '580610631'
 const students = [
   {
-    id: '580610631',
-    firstname: 'Titipat',
-    lastname: 'Sukhvibul',
-    email: 'titipatsukhvibul@gmail.com'
+    id: '580610XXX',
+    firstname: 'John',
+    lastname: 'Doe',
+    email: 'johndoe@example.com'
   }
 ]
 
@@ -22,9 +22,6 @@ student.iat = moment()
   .add(1, 'days')
   .unix()
 const token = jwt.sign(student, process.env.JWT_SECRET)
-// console.log(token)
-
-// const student = students.pop()
 
 const express = require('express')
 const helmet = require('helmet')
@@ -32,7 +29,7 @@ let app = express()
 
 app.use(helmet())
 
-app.get('/myscoreboard', (req, res) => {
+app.get('/me/scoreboard', (req, res) => {
   const token = req.query.token
   jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
     if (err) {
