@@ -24,6 +24,17 @@ student.iat = moment()
   .unix()
 const token = jwt.sign(student, process.env.JWT_SECRET)
 
+const generateToken = student => {
+  if (_.isEmpty(process.env.JWT_SECRET)) {
+    throw new Error('process.env.JWT_SECRET is required')
+  }
+  student.iat = moment()
+    .add(1, 'days')
+    .unix()
+  const token = jwt.sign(student, process.env.JWT_SECRET)
+  return token
+}
+
 const express = require('express')
 const helmet = require('helmet')
 let app = express()
@@ -67,6 +78,39 @@ app.get('/students/:id', (req, res) => {
     res.json(student)
   })
 })
+
+const bodyParser = require('body-parser')
+
+app.post(
+  '/authenticate',
+  [bodyParser.urlencoded({ extended: false }), bodyParser.json()],
+  (req, res) => {
+    const { email, id } = req.body
+
+    if (_.isEmpty(email) || _.isEmpty(id)) {
+      console.error(`Authenticating:`, id, email)
+      return res.sendStatus(400)
+    }
+
+    Student.find(id, (err, student) => {
+      if (err) {
+        if (
+          err.toString() === 'Student not found' ||
+          err.toString() === 'Email mapping not found'
+        ) {
+          return res.sendStatus(403)
+        }
+      }
+
+      if (student.id !== id || student.email !== email) {
+        return res.sendStatus(403)
+      }
+
+      const token = generateToken(student)
+      res.send(`Here is your token: ${token}`)
+    })
+  }
+)
 
 app.use((req, res) => {
   res.send('m/a')
