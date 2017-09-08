@@ -2,6 +2,14 @@
 
 [![Build Status](https://travis-ci.org/rubber-cat/fund-db-student-portal.svg?branch=master)](https://travis-ci.org/rubber-cat/fund-db-student-portal)
 
+แอปพลิเคชันดูคะแนนเก็บวิชา Fundamental database systems (lab)
+
+## ขั้นตอนการใช้งาน
+
+1. ติดต่อ TA เพื่อแมปเมลนักศึกษากับรหัสนักศึกษา
+2. กรอกฟอร์มที่หน้าแอปฯ ที่ `TBA` ระบบจะส่ง Token ไปทางอีเมล
+3. เข้าดูคะแนนเก็บด้วย Token ที่ได้จากอีเม
+
 ### Testing
 
 John Doe's token
