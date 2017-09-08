@@ -141,7 +141,7 @@ app.post(
       // res.send(`Here is your token: ${token}`)
       const option = {
         recipient: student.email,
-        content: `Here is your token: ${token}`
+        content: `Please visit: https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}`
       }
       sendMail(option, (err, result) => {
         if (err) {
