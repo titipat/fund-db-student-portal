@@ -4,6 +4,7 @@ const pug = require('pug')
 const Sheet = require('./lib/sheet')
 const { getSheet, getHeader, getScore } = Sheet
 const Student = require('./lib/student')
+const PASSWD = '1234'
 
 const studentId = '580610631'
 const students = [
