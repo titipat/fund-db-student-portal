@@ -1,5 +1,7 @@
 # fund-db-student-portal
 
+[![Build Status](https://travis-ci.org/rubber-cat/fund-db-student-portal.svg?branch=master)](https://travis-ci.org/rubber-cat/fund-db-student-portal)
+
 ### Testing
 
 John Doe's token
