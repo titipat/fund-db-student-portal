@@ -80,6 +80,37 @@ app.get('/students/:id', (req, res) => {
 })
 
 const bodyParser = require('body-parser')
+const sendMail = (option, callback) => {
+  const sg = require('sendgrid')(process.env.SENDGRID_API_KEY)
+  const request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: {
+      personalizations: [
+        {
+          to: [
+            {
+              email: option.recipient
+            }
+          ],
+          subject: 'Sending with SendGrid is Fun'
+        }
+      ],
+      from: {
+        email: 'noreply@titipat.net'
+      },
+      content: [
+        {
+          type: 'text/plain',
+          value: option.content
+        }
+      ]
+    }
+  })
+  sg.API(request, (err, response) => {
+    callback(err, response)
+  })
+}
 
 app.post(
   '/authenticate',
@@ -107,7 +138,18 @@ app.post(
       }
 
       const token = generateToken(student)
-      res.send(`Here is your token: ${token}`)
+      // res.send(`Here is your token: ${token}`)
+      const option = {
+        recipient: student.email,
+        content: `Here is your token: ${token}`
+      }
+      sendMail(option, (err, result) => {
+        if (err) {
+          return res.sendStatus(500)
+        }
+
+        res.send('We sent the token to your email.')
+      })
     })
   }
 )
