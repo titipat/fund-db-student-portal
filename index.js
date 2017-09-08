@@ -1,8 +1,9 @@
 const _ = require("lodash")
 const dotenv = require("dotenv").config()
 const pug = require("pug")
-const sheet = require('./lib/sheet')
-const {getSheet, getHeader, getScore} = sheet
+const Sheet = require('./lib/sheet')
+const {getSheet, getHeader, getScore} = Sheet
+const Student = require('./lib/student')
 
 const studentId = "580610631"
 const students = [
@@ -55,14 +56,14 @@ app.get("/myscoreboard", (req, res) => {
 
 app.get('/students/:id', (req, res) => {
   const {id} = req.params
-  getScore(id, (err, score) => {
+  Student.find(id, (err, student) => {
     if (err) {
       console.error(err)
       if (err.toString() === 'Error: Student not found') {
         return res.sendStatus(404)
       }
     }
-    res.json(score)
+    res.json(student)
   })
 })
 
