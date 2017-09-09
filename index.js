@@ -6,7 +6,6 @@ const { getSheet, getHeader, getScore } = Sheet
 const Student = require('./lib/student')
 const PASSWD = '1234'
 
-const studentId = '580610631'
 const students = [
   {
     id: '580610XXX',
