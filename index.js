@@ -1,12 +1,10 @@
 const _ = require('lodash')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 const pug = require('pug')
 const Sheet = require('./lib/sheet')
-const { getSheet, getHeader, getScore } = Sheet
+const { getScore } = Sheet
 const Student = require('./lib/student')
-const PASSWD = '1234'
 
-const studentId = '580610631'
 const students = [
   {
     id: '580610XXX',
@@ -22,7 +20,6 @@ const jwt = require('jsonwebtoken')
 student.iat = moment()
   .add(1, 'days')
   .unix()
-const token = jwt.sign(student, process.env.JWT_SECRET)
 
 const generateToken = student => {
   if (_.isEmpty(process.env.JWT_SECRET)) {
@@ -49,13 +46,16 @@ app.get('/me/scoreboard', (req, res) => {
     }
     // res.json(payload)
     getScore(payload.id, (err, score) => {
+      if (err) {
+        console.error('Can not get student score')
+        return res.sendStatus(500)
+      }
       const student = {
         id: score.id.value,
         firstname: score.firstname.value.toString('utf8'),
         lastname: score.lastname.value
       }
       // console.log(score);
-      const fs = require('fs')
       const html = pug.renderFile('template.pug', {
         student,
         score
