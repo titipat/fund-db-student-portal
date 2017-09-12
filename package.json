@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "standard",
+    "dev": "chokidar '**/*.js' -c 'standard && jest'",
+    "validate": "npm ls"
   },
   "keywords": [],
   "author": "",
@@ -25,15 +28,25 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "chokidar-cli": "^1.2.0",
     "eslint": "^4.6.1",
     "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-react": "^7.3.0",
     "jest": "^21.0.1",
-    "prettier": "^1.6.1"
+    "precommit-hook": "^3.0.0",
+    "prettier": "^1.6.1",
+    "standard": "^10.0.3"
   },
   "engines": {
-    "node": "~6",
-    "npm": "~3"
+    "node": "^6.11",
+    "npm": "^3"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "standard": {
+    "globals": [ "jest", "describe", "test", "expect" ]
   }
 }
