@@ -93,7 +93,7 @@ const sendMail = (option, callback) => {
               email: option.recipient
             }
           ],
-          subject: 'Sending with SendGrid is Fun'
+          subject: option.subject
         }
       ],
       from: {
@@ -101,7 +101,7 @@ const sendMail = (option, callback) => {
       },
       content: [
         {
-          type: 'text/plain',
+          type: 'text/html',
           value: option.content
         }
       ]
@@ -126,10 +126,10 @@ app.post(
     Student.find(id, (err, student) => {
       if (err) {
         if (
-          err.toString() === 'Student not found' ||
-          err.toString() === 'Email mapping not found'
+          err.toString() === 'Error: Student not found' ||
+          err.toString() === 'Error: Email mapping not found'
         ) {
-          return res.sendStatus(403)
+          return res.sendStatus(404)
         }
       }
 
@@ -140,8 +140,13 @@ app.post(
       const token = generateToken(student)
       // res.send(`Here is your token: ${token}`)
       const option = {
+        subject: 'Your fundamental database scoreboard',
         recipient: student.email,
-        content: `Please visit: https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}`
+        content: `
+        <p>Hi,</p>
+        <p>Please visit the link below.<p>
+        <a href="https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}">https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}</a>
+        <hr><strong>this link will expire in 1 day.</strong>`
       }
       sendMail(option, (err, result) => {
         if (err) {
@@ -155,7 +160,9 @@ app.post(
 )
 
 app.use((req, res) => {
-  res.send('m/a')
+  const html = pug.renderFile('form.pug')
+
+  res.send(html)
 })
 
 app.listen(process.env.PORT || 3000)
