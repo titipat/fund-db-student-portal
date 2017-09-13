@@ -126,10 +126,10 @@ app.post(
     Student.find(id, (err, student) => {
       if (err) {
         if (
-          err.toString() === 'Student not found' ||
-          err.toString() === 'Email mapping not found'
+          err.toString() === 'Error: Student not found' ||
+          err.toString() === 'Error: Email mapping not found'
         ) {
-          return res.sendStatus(403)
+          return res.sendStatus(404)
         }
       }
 
@@ -160,7 +160,9 @@ app.post(
 )
 
 app.use((req, res) => {
-  res.send('m/a')
+  const html = pug.renderFile('form.pug')
+
+  res.send(html)
 })
 
 app.listen(process.env.PORT || 3000)
