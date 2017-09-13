@@ -143,7 +143,7 @@ app.post(
         subject: 'Your fundamental database scoreboard',
         recipient: student.email,
         content: `
-        <p>Hi</p>
+        <p>Hi,</p>
         <p>Please visit the link below.<p>
         <a href="https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}">https://fund-db-student-portal.herokuapp.com/me/scoreboard?token=${token}</a>
         <hr><strong>this link will expire in 1 day.</strong>`
